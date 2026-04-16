@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class script_zone : MonoBehaviour
@@ -9,9 +10,15 @@ public class script_zone : MonoBehaviour
     [SerializeField] int zoneMultiplier = 1;
 
     // pluviometre
-    private float pluviometre = 0;
-    [SerializeField] int pluviometreMultiplier = 1;
-    
+    public Slider rainSlider;
+    // private float pluviometre = 0;
+    // [SerializeField] int pluviometreMultiplier = 1;
+    public float rainAccumulation = 0f;
+    public float maxRain = 100f;
+
+    public float rainSpeed = 20f;
+    public bool isRaining = true;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -22,6 +29,7 @@ public class script_zone : MonoBehaviour
     void Update()
     {
         ZoneInonde();
+        Pluviometre();
     }
 
     // when player clicked on the zone
@@ -52,9 +60,29 @@ public class script_zone : MonoBehaviour
     void Pluviometre()
     {
         bool pluie = Random.value < 0.5f;
-        if (pluie)
+        /*  if (pluie)
         {
             // pluviometre += pluviometreMultiplier * Time.deltaTime;
+        }*/
+
+        if (isRaining)
+        {
+            rainAccumulation += rainSpeed * Time.deltaTime;
+        }
+        else
+        {
+            rainAccumulation -= rainSpeed * Time.deltaTime;
+        }
+
+        // Clamp between 0 and maxRain
+        rainAccumulation = Mathf.Clamp(rainAccumulation, 0f, maxRain);
+
+        // Convert to 0–1 for the slider
+        rainSlider.value = rainAccumulation / maxRain;
+
+        if(rainAccumulation == maxRain)
+        {
+            inonde = true;
         }
     }
 }
