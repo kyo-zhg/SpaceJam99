@@ -18,6 +18,7 @@ public class script_gamemanager : MonoBehaviour
     void Update()
     {
         ClickToSelect();
+        Score();
     }
 
     // not really game manager but welp

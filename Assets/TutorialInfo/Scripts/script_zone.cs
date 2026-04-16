@@ -48,4 +48,13 @@ public class script_zone : MonoBehaviour
         }
 
     }
+
+    void Pluviometre()
+    {
+        bool pluie = Random.value < 0.5f;
+        if (pluie)
+        {
+            // pluviometre += pluviometreMultiplier * Time.deltaTime;
+        }
+    }
 }
