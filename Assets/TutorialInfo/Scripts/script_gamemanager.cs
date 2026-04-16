@@ -4,9 +4,9 @@ using UnityEngine.InputSystem;
 
 public class script_gamemanager : MonoBehaviour
 {
-    public static int money;
-    public static int money_multiplier;
-    public static int score;
+    public static int money = 0;
+    public static int money_multiplier = 0;
+    public static float score = 0;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -20,6 +20,7 @@ public class script_gamemanager : MonoBehaviour
         ClickToSelect();
     }
 
+    // not really game manager but welp
     void ClickToSelect()
     {
         
@@ -45,4 +46,14 @@ public class script_gamemanager : MonoBehaviour
 
         }
     }
+
+    void Score()
+    {
+        // si tout n'est pas inondé
+        if (money_multiplier != 0)
+        {
+            score += 1 * Time.deltaTime;
+        }
+    }
+
 }

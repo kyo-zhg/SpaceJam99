@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class script_zone : MonoBehaviour
 {
@@ -20,7 +21,7 @@ public class script_zone : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (inonde) script_gamemanager.money_multiplier -= zoneMultiplier; // zone dead
+        ZoneInonde();
     }
 
     // when player clicked on the zone
@@ -33,5 +34,18 @@ public class script_zone : MonoBehaviour
             // open ui
 
         }
+    }
+
+    void ZoneInonde()
+    {
+        if (inonde)
+        {
+            script_gamemanager.money_multiplier -= zoneMultiplier; // zone dead
+            if (script_gamemanager.money_multiplier == 0)
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            }
+        }
+
     }
 }
