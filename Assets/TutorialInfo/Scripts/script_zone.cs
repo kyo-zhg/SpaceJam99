@@ -8,6 +8,7 @@ public class script_zone : MonoBehaviour
 
     // argent gagne
     [SerializeField] int zoneMultiplier = 1;
+    public float rainCostReference = 5f; // coût théorique d'une intervention
 
     // pluviometre
     public Slider rainSlider;
@@ -16,8 +17,15 @@ public class script_zone : MonoBehaviour
     public float rainAccumulation = 0f;
     public float maxRain = 100f;
 
-    public float rainSpeed = 20f;
+    public float rainSpeed = 2f;
     public bool isRaining = true;
+
+    private float rainTimer = 0f;
+    public float rainDuration = 10f;
+
+    private float rainCooldownTimer = 0f;
+    public float rainCooldownMin = 5f;
+    public float rainCooldownMax = 15f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -59,28 +67,50 @@ public class script_zone : MonoBehaviour
 
     void Pluviometre()
     {
-        bool pluie = Random.value < 0.5f;
-        /*  if (pluie)
+        // Plus le joueur gagne d'argent,
+        // plus la pluie a une chance d'arriver
+        float rainChance = script_gamemanager.money_multiplier / rainCostReference;
+        rainChance = Mathf.Clamp01(rainChance);
+
+        // cooldown pour la pluie descend
+        if (rainCooldownTimer > 0f)
         {
-            // pluviometre += pluviometreMultiplier * Time.deltaTime;
-        }*/
+            rainCooldownTimer -= Time.deltaTime;
+        }
+
+        // Si pas de pluie, déclencher une pluie (et pas en cooldown)
+        if (!isRaining && rainCooldownTimer <= 0f)
+        {
+            if (Random.value < rainChance * Time.deltaTime)
+            {
+                isRaining = true;
+                // durée aléatoire de pluie
+                rainTimer = Random.Range(5f, rainDuration);
+            }
+        }
 
         if (isRaining)
         {
+            rainTimer -= Time.deltaTime;
             rainAccumulation += rainSpeed * Time.deltaTime;
+            
+            if (rainTimer <= 0f)
+            {
+                isRaining = false;
+
+                // lancement du cooldown aléatoire
+                rainCooldownTimer = Random.Range(rainCooldownMin, rainCooldownMax);
+            }
         }
         else
         {
-            rainAccumulation -= rainSpeed * Time.deltaTime;
+            rainAccumulation -= rainSpeed * Time.deltaTime * 0.5f; // descend plus lentement, faut voir selon les zones
         }
 
-        // Clamp between 0 and maxRain
         rainAccumulation = Mathf.Clamp(rainAccumulation, 0f, maxRain);
-
-        // Convert to 0–1 for the slider
         rainSlider.value = rainAccumulation / maxRain;
 
-        if(rainAccumulation == maxRain)
+        if(rainAccumulation >= maxRain)
         {
             inonde = true;
         }
