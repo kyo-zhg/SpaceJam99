@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5130862949543003007}
   - component: {fileID: 1372947556985788470}
   - component: {fileID: 132048141405337835}
+  - component: {fileID: 3999112756452803772}
   m_Layer: 0
   m_Name: Zone
   m_TagString: hitable
@@ -67,4 +68,39 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   zoneMultiplier: 1
-  pluviometreMultiplier: 1
+  rainSlider: {fileID: 0}
+  rainAccumulation: 0
+  maxRain: 100
+  rainSpeed: 20
+  isRaining: 1
+--- !u!114 &3999112756452803772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1104191083863505313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 1901465164
+      Data2: 1330826900
+      Data3: -692888655
+      Data4: 48286861
+    Path: event:/Music/Music
+  Event: 
+  EventPlayTrigger: 1
+  EventStopTrigger: 2
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
